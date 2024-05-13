@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use FFMpeg\Format\Audio\Mp3;
+use Illuminate\Http\Request;
 use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 use Illuminate\Support\Facades\Storage;
 
@@ -12,19 +13,33 @@ class AudioConversionController extends Controller
     {
         return view('convert');
     }
-    public function convert()
+
+    public function upload(Request $request)
     {
-        // Path to the FLAC file you want to convert
+        $request->validate([
+            'audio_file' => 'required|file|mimes:flac',
+        ]);
+
+        // Move uploaded file to 'audio' directory and rename it to 'input.flac'
+        $request->file('audio_file')->storeAs('audio', 'input.flac');
+
+        // Trigger conversion
+        return $this->convert();
+    }
+
+    private function convert()
+    {
+        // Path to the input FLAC file
         $flacFilePath = ('audio/input.flac');
 
         // Generate a unique filename for the converted MP3 file
         $convertedFileName = uniqid('converted_') . '.mp3';
 
         // Convert FLAC to MP3
-        FFMpeg::fromDisk('local') // storage/app/
+        FFMpeg::fromDisk('local') // Assuming 'local' disk is configured in filesystems.php
         ->open($flacFilePath)
             ->export()
-            ->toDisk('local') // storage/app/
+            ->toDisk('local') // Assuming 'local' disk is configured in filesystems.php
             ->inFormat(new Mp3)
             ->save($convertedFileName);
 

@@ -26,4 +26,4 @@ Route::get('/listings/{listing}', function (Listing $listing)
 
 // Audio conversion
 Route::get('/convert', [AudioConversionController::class, 'showConversionForm'])->name('convert.form');
-Route::post('/convert', [AudioConversionController::class, 'convert'])->name('convert');
+Route::post('/convert', [AudioConversionController::class, 'upload'])->name('convert');
