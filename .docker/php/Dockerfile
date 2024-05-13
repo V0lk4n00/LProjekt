@@ -53,3 +53,14 @@ RUN git clone https://github.com/seebi/dircolors-solarized
 
 EXPOSE 5173
 WORKDIR /var/www
+
+# PHP
+ENV PHP_UPLOAD_MAX_FILESIZE 300M
+ENV PHP_POST_MAX_SIZE 300M
+RUN sed -i -e "s/upload_max_filesize = .*/upload_max_filesize = ${PHP_UPLOAD_MAX_FILESIZE}/" \
+       -e "s/post_max_size = .*/post_max_size = ${PHP_POST_MAX_SIZE}/" /usr/local/etc/php/php.ini
+
+# FFmpeg
+RUN apt-get -y update
+RUN apt-get -y upgrade
+RUN apt-get install -y ffmpeg

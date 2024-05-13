@@ -11,6 +11,9 @@ services:
             - 5173:5173
         volumes:
             - .:/var/www:cached
+        environment:
+            PHP_UPLOAD_MAX_FILESIZE: 300M
+            PHP_POST_MAX_SIZE: 300M
 
     ####################################################################################################
     # Nginx
