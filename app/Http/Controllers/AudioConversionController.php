@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use FFMpeg\Format\Audio\Mp3;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 use Illuminate\Support\Facades\Storage;
 
@@ -23,8 +24,13 @@ class AudioConversionController extends Controller
         // Move uploaded file to 'audio' directory and rename it to 'input.flac'
         $request->file('audio_file')->storeAs('audio', 'input.flac');
 
-        // Trigger conversion
-        return $this->convert();
+        // Trigger conversion, get JSON
+        $json_response = $this->convert();
+
+        // Set flash message
+        Session::flash('conversion_response', $json_response);
+
+        return redirect()->back();
     }
 
     private function convert()
@@ -51,7 +57,7 @@ class AudioConversionController extends Controller
 
         // Return a response with the path to the converted file
         return response()->json([
-            'message' => 'Audio file converted successfully.',
+            'message' => 'Audio file converted successfully!',
             'converted_file_path' => $convertedFilePath,
         ]);
     }
