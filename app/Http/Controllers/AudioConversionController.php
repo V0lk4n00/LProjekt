@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use FFMpeg\Format\Audio\Mp3;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Session;
 use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
@@ -16,14 +18,14 @@ class AudioConversionController extends Controller
         return view('convert');
     }
 
-    public function upload(Request $request)
+    public function upload(Request $request): RedirectResponse
     {
         $request->validate([
             'audio_file' => 'required|file|mimes:flac',
         ]);
 
         // Move uploaded file to 'audio' directory and rename it to 'input.flac'
-        $path = $request->file('audio_file')->storeAs('audio', 'input.flac');
+        $request->file('audio_file')->storeAs('audio', 'input.flac');
 
         // Trigger conversion and get JSON response
         $jsonResponse = $this->convert();
@@ -38,7 +40,7 @@ class AudioConversionController extends Controller
         return redirect()->route('download', ['filename' => basename($jsonResponse->original['converted_file_path'])]);
     }
 
-    public function download($filename)
+    public function download($filename): \Illuminate\Http\Response
     {
         $path = storage_path('app/' . $filename);
 
@@ -47,10 +49,27 @@ class AudioConversionController extends Controller
             abort(404);
         }
 
-        return Response::download($path);
+        // Get contents of a file
+        $fileContent = file_get_contents($path);
+
+        // Prepare the headers
+        $headers =
+            [
+                'Content-Type' => mime_content_type($path),
+                'Content-Disposition' => 'attachment; filename=' . $filename . '"',
+            ];
+
+        // Create the response
+        $response = Response::make($fileContent, 200, $headers);
+
+        register_shutdown_function(function () use ($path) {
+            unlink($path);
+        });
+
+        return $response;
     }
 
-    private function convert()
+    private function convert(): JsonResponse
     {
         // Path to the input FLAC file
         $flacFilePath = ('audio/input.flac');
@@ -60,7 +79,7 @@ class AudioConversionController extends Controller
 
         // Convert FLAC to MP3
         FFMpeg::fromDisk('local') // Assuming 'local' disk is configured in filesystems.php
-        ->open($flacFilePath)
+            ->open($flacFilePath)
             ->export()
             ->toDisk('local') // Assuming 'local' disk is configured in filesystems.php
             ->inFormat(new Mp3)
