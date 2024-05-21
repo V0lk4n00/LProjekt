@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use FFMpeg\Format\Audio\Mp3;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Session;
 use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 use Illuminate\Support\Facades\Storage;
@@ -22,15 +23,31 @@ class AudioConversionController extends Controller
         ]);
 
         // Move uploaded file to 'audio' directory and rename it to 'input.flac'
-        $request->file('audio_file')->storeAs('audio', 'input.flac');
+        $path = $request->file('audio_file')->storeAs('audio', 'input.flac');
 
-        // Trigger conversion, get JSON
-        $json_response = $this->convert();
+        // Trigger conversion and get JSON response
+        $jsonResponse = $this->convert();
 
-        // Set flash message
-        Session::flash('conversion_response', $json_response);
+        // Set flash message with JSON response
+        Session::flash('conversion_response', $jsonResponse);
 
-        return redirect()->back();
+        // Store the converted file path in the session for downloading
+        Session::flash('converted_file_path', $jsonResponse->original['converted_file_path']);
+
+        // Redirect to the download route with the file name
+        return redirect()->route('download', ['filename' => basename($jsonResponse->original['converted_file_path'])]);
+    }
+
+    public function download($filename)
+    {
+        $path = storage_path('app/' . $filename);
+
+        if(!file_exists($path))
+        {
+            abort(404);
+        }
+
+        return Response::download($path);
     }
 
     private function convert()
