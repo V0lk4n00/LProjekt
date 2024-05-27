@@ -18,32 +18,36 @@ class AudioConversionController extends Controller
         return view('convert');
     }
 
+    // Upload function
     public function upload(Request $request): RedirectResponse
     {
+        // Validation (file type, size)
         $request->validate([
-            'audio_file' => 'required|file|mimes:flac',
+            'audio_file' => 'required|file|mimes:flac|max:307200',
         ]);
 
-        // Move uploaded file to 'audio' directory and rename it to 'input.flac'
+        // Move the file to storage
         $request->file('audio_file')->storeAs('audio', 'input.flac');
 
-        // Trigger conversion and get JSON response
+        // Trigger conversion
         $jsonResponse = $this->convert();
 
-        // Set flash message with JSON response
+        // Initialize session, attach JSON message
         Session::flash('conversion_response', $jsonResponse);
 
-        // Store the converted file path in the session for downloading
+        // Attach file path
         Session::flash('converted_file_path', $jsonResponse->original['converted_file_path']);
 
         // Redirect to the download route with the file name
         return redirect()->route('download', ['filename' => basename($jsonResponse->original['converted_file_path'])]);
     }
 
+    // Download function
     public function download($filename): \Illuminate\Http\Response
     {
         $path = storage_path('app/' . $filename);
 
+        // Check if a path (and by extension the file) exists
         if(!file_exists($path))
         {
             abort(404);
@@ -69,29 +73,24 @@ class AudioConversionController extends Controller
         return $response;
     }
 
+    // Transcoding function
     private function convert(): JsonResponse
     {
-        // Path to the input FLAC file
-        $flacFilePath = ('audio/input.flac');
-
-        // Generate a unique filename for the converted MP3 file
+        // Generate a unique filename with MP3 suffix
         $convertedFileName = uniqid('converted_') . '.mp3';
 
         // Convert FLAC to MP3
-        FFMpeg::fromDisk('local') // Assuming 'local' disk is configured in filesystems.php
-            ->open($flacFilePath)
+        FFMpeg::fromDisk('local')
+            ->open('audio/input.flac')
             ->export()
-            ->toDisk('local') // Assuming 'local' disk is configured in filesystems.php
+            ->toDisk('local')
             ->inFormat(new Mp3)
             ->save($convertedFileName);
 
         // Get the path of the converted file
         $convertedFilePath = Storage::disk('local')->path($convertedFileName);
 
-        // Optionally, you can store the converted file in a different location
-        // Storage::disk('converted')->put($convertedFileName, file_get_contents($convertedFilePath));
-
-        // Return a response with the path to the converted file
+        // Return a response with the path and a message
         return response()->json([
             'message' => 'Audio file converted successfully!',
             'converted_file_path' => $convertedFilePath,
