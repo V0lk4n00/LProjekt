@@ -2,11 +2,16 @@
 
 use App\Http\Controllers\ListingController;
 use Illuminate\Support\Facades\Route;
-use App\Models\Listing;
 use App\Http\Controllers\AudioConversionController;
 
 // All listings
 Route::get('/', [ListingController::class, 'index']);
+
+// Create listing
+Route::get('/listings/create', [ListingController::class, 'create']);
+
+// Store listing
+Route::post('/listings', [ListingController::class, 'store']);
 
 // Single listing
 Route::get('/listings/{listing}', [ListingController::class, 'show']);

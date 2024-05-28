@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
 
 class AudioConversionController extends Controller
 {
+    // Show conversion form
     public function showConversionForm()
     {
         return view('convert');
@@ -32,13 +33,10 @@ class AudioConversionController extends Controller
         // Trigger conversion
         $jsonResponse = $this->convert();
 
-        // Initialize session, attach JSON message
-        Session::flash('conversion_response', $jsonResponse);
-
-        // Attach file path
+        // Initialize session, attach file path
         Session::flash('converted_file_path', $jsonResponse->original['converted_file_path']);
 
-        // Redirect to the download route with the file name
+        // Redirect and download the file
         return redirect()->route('download', ['filename' => basename($jsonResponse->original['converted_file_path'])]);
     }
 
@@ -92,7 +90,6 @@ class AudioConversionController extends Controller
 
         // Return a response with the path and a message
         return response()->json([
-            'message' => 'Audio file converted successfully!',
             'converted_file_path' => $convertedFilePath,
         ]);
     }
