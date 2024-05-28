@@ -18,6 +18,7 @@
                         type="text"
                         class="border border-gray-200 rounded p-2 w-full"
                         name="company"
+                        value="{{old('company')}}"
                     />
                 </label>
 
@@ -36,6 +37,7 @@
                         class="border border-gray-200 rounded p-2 w-full"
                         name="title"
                         placeholder="Example: Senior Laravel Developer"
+                        value="{{old('title')}}"
                     />
                 </label>
 
@@ -54,6 +56,7 @@
                         class="border border-gray-200 rounded p-2 w-full"
                         name="location"
                         placeholder="Example: Remote, Boston MA, etc"
+                        value="{{old('location')}}"
                     />
                 </label>
 
@@ -71,6 +74,7 @@
                         type="text"
                         class="border border-gray-200 rounded p-2 w-full"
                         name="email"
+                        value="{{old('email')}}"
                     />
                 </label>
 
@@ -88,6 +92,7 @@
                         type="text"
                         class="border border-gray-200 rounded p-2 w-full"
                         name="website"
+                        value="{{old('website')}}"
                     />
                 </label>
 
@@ -106,6 +111,7 @@
                         class="border border-gray-200 rounded p-2 w-full"
                         name="tags"
                         placeholder="Example: Laravel, Backend, Postgres, etc"
+                        value="{{old('tags')}}"
                     />
                 </label>
 
@@ -135,6 +141,7 @@
                         name="description"
                         rows="10"
                         placeholder="Include tasks, requirements, salary, etc">
+                        {{old('description')}}
                     </textarea>
                 </label>
 
