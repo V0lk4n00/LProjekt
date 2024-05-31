@@ -3,13 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Listing;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Validation\Rule;
 
 class ListingController extends Controller
 {
     // Show all listings
-    public function index()
+    public function index(): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
     {
         return view('listings.index',
             [
@@ -20,7 +25,7 @@ class ListingController extends Controller
     }
 
     // Show single listing
-    public function show(Listing $listing)
+    public function show(Listing $listing): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
     {
         return view('listings.show',
             [
@@ -30,13 +35,13 @@ class ListingController extends Controller
     }
 
     // Show create form
-    public function create()
+    public function create(): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
     {
         return view('listings.create');
     }
 
     // Store listing
-    public function store(Request $request)
+    public function store(Request $request): Application|Redirector|\Illuminate\Contracts\Foundation\Application|RedirectResponse
     {
         $form = $request->validate([
             'title' => 'required',
@@ -59,13 +64,13 @@ class ListingController extends Controller
     }
 
     // Show edit form
-    public function edit(Listing $listing)
+    public function edit(Listing $listing): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
     {
         return view('listings.edit', ['listing' => $listing]);
     }
 
     // Update listing
-    public function update(Request $request, Listing $listing)
+    public function update(Request $request, Listing $listing): Application|Redirector|\Illuminate\Contracts\Foundation\Application|RedirectResponse
     {
         $form = $request->validate([
             'title' => 'required',
@@ -88,7 +93,7 @@ class ListingController extends Controller
     }
 
     // Delete listing
-    public function delete(Listing $listing)
+    public function delete(Listing $listing): Application|Redirector|\Illuminate\Contracts\Foundation\Application|RedirectResponse
     {
         $listing->delete();
         return redirect('/')->with('message', 'Listing deleted!');

@@ -32,18 +32,46 @@
                 <img class="w-24 logo" src="{{asset('images/acid-smile.jpg')}}" alt="logo">
             </a>
             <ul class="flex space-x-6 mr-6 text-lg">
+                @auth()
                 <li>
-                    <a href="register.html" class="hover:text-laravel">
+                    <span class="font-bold uppercase">
+                        Welcome {{Auth::user()->name}}
+                    </span>
+                </li>
+
+                <li>
+                    <a href="/listings/manage" class="hover:text-laravel">
+                        <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                        Manage listings
+                    </a>
+                </li>
+
+                <li>
+                    <form class="inline" method="POST" action="/logout">
+                        @csrf
+                        <button type="submit">
+                            <i class="fa-solid fa-door-closed">
+                                Logout
+                            </i>
+                        </button>
+                    </form>
+                </li>
+
+                @else
+                <li>
+                    <a href="/register" class="hover:text-laravel">
                         <i class="fa-solid fa-user-plus"></i>
                         Register
                     </a>
                 </li>
+
                 <li>
-                    <a href="login.html" class="hover:text-laravel">
+                    <a href="/login" class="hover:text-laravel">
                         <i class="fa-solid fa-arrow-right-to-bracket"></i>
                         Login
                     </a>
                 </li>
+                @endauth
             </ul>
         </nav>
 

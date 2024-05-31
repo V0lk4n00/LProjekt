@@ -5,12 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @method static latest()
+ * @method static create(array $form)
+ * @property mixed $id
+ */
 class Listing extends Model
 {
     use HasFactory;
 
     // Tag filtering and searching
-    public function scopeFilter($query, array $filters)
+    public function scopeFilter($query, array $filters): void
     {
         // Filtering by tags
         if($filters['tag'] ?? false)

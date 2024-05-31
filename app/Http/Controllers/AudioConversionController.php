@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use FFMpeg\Format\Audio\Mp3;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
@@ -14,7 +17,7 @@ use Illuminate\Support\Facades\Storage;
 class AudioConversionController extends Controller
 {
     // Show conversion form
-    public function showConversionForm()
+    public function showConversionForm(): Factory|Application|View|\Illuminate\Contracts\Foundation\Application
     {
         return view('convert');
     }
