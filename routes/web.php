@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\ValidateUploadSize;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AudioConversionController;
 
@@ -54,10 +55,10 @@ Route::post('/logout', [UserController::class, 'logout']);
 
 // Audio transcoding
 // Show upload form
-Route::get('/convert', [AudioConversionController::class, 'showConversionForm'])->name('convert.form');
+Route::get('/convert', [AudioConversionController::class, 'showConversionForm'])->name('convert');
 
 // Upload raw file
-Route::post('/convert', [AudioConversionController::class, 'upload'])->name('convert');
+Route::post('/convert', [AudioConversionController::class, 'upload'])->name('upload');
 
 // Download converted file
 Route::get('/convert/download/{filename}', [AudioConversionController::class, 'download'])->name('download');

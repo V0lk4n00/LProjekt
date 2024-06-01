@@ -9,8 +9,8 @@
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         </p>
         <div>
-            <a href="/register" class="inline-block border-2 border-white text-white py-2 px-4 rounded-xl uppercase mt-2 hover:text-black hover:border-black">
-                Ut nec turpis ante.
+            <a href="/convert" class="inline-block border-2 border-white text-white py-2 px-4 rounded-xl uppercase mt-2 hover:text-black hover:border-black">
+                Convert your songs
             </a>
         </div>
     </div>

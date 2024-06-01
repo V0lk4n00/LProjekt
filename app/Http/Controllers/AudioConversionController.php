@@ -25,9 +25,9 @@ class AudioConversionController extends Controller
     // Upload function
     public function upload(Request $request): RedirectResponse
     {
-        // Validation (file type, size)
+        // Validation
         $request->validate([
-            'audio_file' => 'required|file|mimes:flac|max:307200',
+            'audio_file' => 'required|file|mimes:flac',
         ]);
 
         // Move the file to storage
@@ -67,6 +67,7 @@ class AudioConversionController extends Controller
         // Create the response
         $response = Response::make($fileContent, 200, $headers);
 
+        // Delete the file after converting
         register_shutdown_function(function () use ($path) {
             unlink($path);
         });
