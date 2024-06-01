@@ -58,6 +58,8 @@ class ListingController extends Controller
             $form['logo'] = $request->file('logo')->store('images', 'public');
         }
 
+        $form['user_id'] = auth()->id();
+
         Listing::create($form);
 
         return redirect('/')->with('message', 'Listing created!');
@@ -72,6 +74,12 @@ class ListingController extends Controller
     // Update listing
     public function update(Request $request, Listing $listing): Application|Redirector|\Illuminate\Contracts\Foundation\Application|RedirectResponse
     {
+        // Make sure if logged user is the owner of the listing
+        if($listing->user_id != auth()->user())
+            {
+                abort(403, 'Unauthorized action');
+            }
+
         $form = $request->validate([
             'title' => 'required',
             'company' => 'required',
@@ -95,7 +103,19 @@ class ListingController extends Controller
     // Delete listing
     public function delete(Listing $listing): Application|Redirector|\Illuminate\Contracts\Foundation\Application|RedirectResponse
     {
+        // Make sure if logged user is the owner of the listing
+        if($listing->user_id != auth()->user())
+        {
+            abort(403, 'Unauthorized action');
+        }
+
         $listing->delete();
         return redirect('/')->with('message', 'Listing deleted!');
+    }
+
+    // Manage listings
+    public function manage(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    {
+        return view('listings.manage', ['listings' => auth()->user()->listings()->get()]);
     }
 }

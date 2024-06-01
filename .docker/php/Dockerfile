@@ -64,3 +64,8 @@ RUN sed -i -e "s/upload_max_filesize = .*/upload_max_filesize = ${PHP_UPLOAD_MAX
 RUN apt-get -y update
 RUN apt-get -y upgrade
 RUN apt-get install -y ffmpeg
+
+
+RUN apt-get update && apt-get install -y \
+    libonig-dev \
+    && docker-php-ext-install mbstring

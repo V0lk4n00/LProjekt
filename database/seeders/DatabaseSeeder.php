@@ -14,14 +14,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(10)->create();
+        $user = User::factory()->create(
+            [
+                'name' => 'Test',
+                'email' => 'test@example.com',
+                'password' => '123456'
+            ]
+        );
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
-
-        Listing::factory(6)->create();
+        Listing::factory(6)->create(
+            [
+                'user_id' => $user->id,
+            ]
+        );
 //        Listing::create([
 //            'title' => 'Laravel Senior Developer',
 //            'tags' => 'laravel, javascript',
