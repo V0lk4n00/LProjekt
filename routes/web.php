@@ -1,10 +1,9 @@
 <?php
 
+use App\Http\Controllers\AudioConversionController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\UserController;
-use App\Http\Middleware\ValidateUploadSize;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AudioConversionController;
 
 // Listings
 // All listings
@@ -32,8 +31,7 @@ Route::get('/listings/manage', [ListingController::class, 'manage'])->middleware
 Route::get('/listings/{listing}', [ListingController::class, 'show']);
 
 // If user were to type in URL "localhost/listings" without any ID or anything else - redirect them back to homepage
-Route::get('/listings', function ()
-{
+Route::get('/listings', function () {
     return redirect('/');
 });
 
@@ -51,7 +49,6 @@ Route::post('/users/authenticate', [UserController::class, 'authenticate']);
 
 // Logout
 Route::post('/logout', [UserController::class, 'logout']);
-
 
 // Audio transcoding
 // Show upload form

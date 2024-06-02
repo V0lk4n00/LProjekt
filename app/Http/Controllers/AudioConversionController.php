@@ -7,12 +7,12 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Session;
-use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 use Illuminate\Support\Facades\Storage;
+use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 
 class AudioConversionController extends Controller
 {
@@ -46,11 +46,10 @@ class AudioConversionController extends Controller
     // Download function
     public function download($filename): \Illuminate\Http\Response
     {
-        $path = storage_path('app/' . $filename);
+        $path = storage_path('app/'.$filename);
 
         // Check if a path (and by extension the file) exists
-        if(!file_exists($path))
-        {
+        if (! file_exists($path)) {
             abort(404);
         }
 
@@ -61,7 +60,7 @@ class AudioConversionController extends Controller
         $headers =
             [
                 'Content-Type' => mime_content_type($path),
-                'Content-Disposition' => 'attachment; filename=' . $filename . '"',
+                'Content-Disposition' => 'attachment; filename='.$filename.'"',
             ];
 
         // Create the response
@@ -79,7 +78,7 @@ class AudioConversionController extends Controller
     private function convert(): JsonResponse
     {
         // Generate a unique filename with MP3 suffix
-        $convertedFileName = uniqid('converted_') . '.mp3';
+        $convertedFileName = uniqid('converted_').'.mp3';
 
         // Convert FLAC to MP3
         FFMpeg::fromDisk('local')

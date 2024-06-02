@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use Closure;
-
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,8 +17,7 @@ class ValidateUploadSize
 
         $contentLength = $request->header('Content-Length');
 
-        if ($contentLength && $contentLength > $max_file_size)
-        {
+        if ($contentLength && $contentLength > $max_file_size) {
             return redirect()->back();
         }
 

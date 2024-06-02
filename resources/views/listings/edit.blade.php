@@ -12,13 +12,14 @@
             @method('PUT')
             <div class="mb-6">
                 <label for="company" class="inline-block text-lg mb-2">
-                    Company Name
+                    Label Name
                 </label>
                 <label>
                     <input
                         type="text"
                         class="border border-gray-200 rounded p-2 w-full"
                         name="company"
+                        placeholder="Example: Essential Recordings"
                         value="{{$listing->company}}"
                     />
                 </label>
@@ -30,14 +31,14 @@
 
             <div class="mb-6">
                 <label for="title" class="inline-block text-lg mb-2">
-                    Job Title
+                    Title
                 </label>
                 <label>
                     <input
                         type="text"
                         class="border border-gray-200 rounded p-2 w-full"
                         name="title"
-                        placeholder="Example: Senior Laravel Developer"
+                        placeholder="Example: Chicane - Saltwater"
                         value="{{$listing->title}}"
                     />
                 </label>
@@ -49,55 +50,19 @@
 
             <div class="mb-6">
                 <label for="location" class="inline-block text-lg mb-2">
-                    Job Location
+                    Country
                 </label>
                 <label>
                     <input
                         type="text"
                         class="border border-gray-200 rounded p-2 w-full"
                         name="location"
-                        placeholder="Example: Remote, Boston MA, etc"
+                        placeholder="Example: UK"
                         value="{{$listing->location}}"
                     />
                 </label>
 
                 @error('location')
-                <p class="text-red-500 text-xs mt-1">{{$message}}</p>
-                @enderror
-            </div>
-
-            <div class="mb-6">
-                <label for="email" class="inline-block text-lg mb-2">
-                    Contact Email
-                </label>
-                <label>
-                    <input
-                        type="text"
-                        class="border border-gray-200 rounded p-2 w-full"
-                        name="email"
-                        value="{{$listing->email}}"
-                    />
-                </label>
-
-                @error('email')
-                <p class="text-red-500 text-xs mt-1">{{$message}}</p>
-                @enderror
-            </div>
-
-            <div class="mb-6">
-                <label for="website" class="inline-block text-lg mb-2">
-                    Website/Application URL
-                </label>
-                <label>
-                    <input
-                        type="text"
-                        class="border border-gray-200 rounded p-2 w-full"
-                        name="website"
-                        value="{{$listing->website}}"
-                    />
-                </label>
-
-                @error('website')
                 <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                 @enderror
             </div>
@@ -111,7 +76,7 @@
                         type="text"
                         class="border border-gray-200 rounded p-2 w-full"
                         name="tags"
-                        placeholder="Example: Laravel, Backend, Postgres, etc"
+                        placeholder="Example: Trance,1999,UK,Chicane"
                         value="{{$listing->tags}}"
                     />
                 </label>
@@ -123,7 +88,7 @@
 
             <div class="mb-6">
                 <label for="logo" class="inline-block text-lg mb-2">
-                    Company Logo
+                    Image
                 </label>
                 <input
                     type="file"
@@ -140,7 +105,7 @@
 
             <div class="mb-6">
                 <label for="description" class="inline-block text-lg mb-2">
-                    Job Description
+                    Description
                 </label>
                 <label>
                     <textarea

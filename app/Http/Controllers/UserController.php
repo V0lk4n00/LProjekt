@@ -25,7 +25,7 @@ class UserController extends Controller
         $form = $request->validate([
             'name' => ['required', 'min:3'],
             'email' => ['required', 'email', Rule::unique('users', 'email')],
-            'password' => 'required|confirmed|min:6'
+            'password' => 'required|confirmed|min:6',
         ]);
 
         // Password hashing
@@ -51,11 +51,10 @@ class UserController extends Controller
     {
         $form = $request->validate([
             'email' => ['required', 'email'],
-            'password' => 'required'
+            'password' => 'required',
         ]);
 
-        if(auth()->attempt($form))
-        {
+        if (auth()->attempt($form)) {
             $request->session()->regenerate();
 
             return redirect('/')->with('message', 'Login successful!');

@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Listing;
+use App\Models\User;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
-use Illuminate\Validation\Rule;
 
 class ListingController extends Controller
 {
@@ -19,7 +19,7 @@ class ListingController extends Controller
         return view('listings.index',
             [
                 // Filtering by tags
-                'listings' => Listing::latest()->filter(request(['tag', 'search']))->paginate(6)
+                'listings' => Listing::latest()->filter(request(['tag', 'search']))->paginate(6),
             ]
         );
     }
@@ -29,7 +29,7 @@ class ListingController extends Controller
     {
         return view('listings.show',
             [
-                'listing' => $listing
+                'listing' => $listing,
             ]
         );
     }
@@ -45,16 +45,13 @@ class ListingController extends Controller
     {
         $form = $request->validate([
             'title' => 'required',
-            'company' => ['required', Rule::unique('listings', 'company')],
-            'location' => 'required',
-            'website' => 'required',
-            'email' => ['required', 'email'],
             'tags' => 'required',
-            'description' => 'required'
+            'company' => '',
+            'location' => '',
+            'description' => '',
         ]);
 
-        if($request->hasFile('logo'))
-        {
+        if ($request->hasFile('logo')) {
             $form['logo'] = $request->file('logo')->store('images', 'public');
         }
 
@@ -75,23 +72,22 @@ class ListingController extends Controller
     public function update(Request $request, Listing $listing): Application|Redirector|\Illuminate\Contracts\Foundation\Application|RedirectResponse
     {
         // Make sure if logged user is the owner of the listing
-        if($listing->user_id != auth()->user())
-            {
-                abort(403, 'Unauthorized action');
-            }
+        $user = auth()->user();
+
+        /** @var User $user */
+        if (! $user || $listing->user_id != $user->id) {
+            abort(403, 'Unauthorized action');
+        }
 
         $form = $request->validate([
             'title' => 'required',
-            'company' => 'required',
-            'location' => 'required',
-            'website' => 'required',
-            'email' => ['required', 'email'],
             'tags' => 'required',
-            'description' => 'required'
+            'company' => '',
+            'location' => '',
+            'description' => '',
         ]);
 
-        if($request->hasFile('logo'))
-        {
+        if ($request->hasFile('logo')) {
             $form['logo'] = $request->file('logo')->store('images', 'public');
         }
 
@@ -104,12 +100,15 @@ class ListingController extends Controller
     public function delete(Listing $listing): Application|Redirector|\Illuminate\Contracts\Foundation\Application|RedirectResponse
     {
         // Make sure if logged user is the owner of the listing
-        if($listing->user_id != auth()->user())
-        {
+        $user = auth()->user();
+
+        /** @var User $user */
+        if (! $user || $listing->user_id != $user->id) {
             abort(403, 'Unauthorized action');
         }
 
         $listing->delete();
+
         return redirect('/')->with('message', 'Listing deleted!');
     }
 

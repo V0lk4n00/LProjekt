@@ -17,11 +17,9 @@ return new class extends Migration
             $table->string('title');
             $table->string('tags');
             $table->string('logo')->nullable();
-            $table->string('company');
-            $table->string('location');
-            $table->string('email');
-            $table->string('website');
-            $table->longText('description');
+            $table->string('company')->nullable();
+            $table->string('location')->nullable();
+            $table->longText('description')->nullable();
             $table->timestamps();
         });
     }
