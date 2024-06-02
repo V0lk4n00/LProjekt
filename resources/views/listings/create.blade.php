@@ -93,6 +93,7 @@
                     type="file"
                     class="border border-gray-200 rounded p-2 w-full"
                     name="logo"
+                    accept=" .jpg .png .jpeg .svg"
                 />
 
                 @error('logo')
@@ -113,6 +114,22 @@
                 </label>
 
                 @error('description')
+                <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+                @enderror
+            </div>
+
+            <div class="mb-6">
+                <label for="sample" class="inline-block text-lg mb-2">
+                    Audio Sample
+                </label>
+                <input
+                    type="file"
+                    class="border border-gray-200 rounded p-2 w-full"
+                    name="sample"
+                    accept=".flac"
+                />
+
+                @error('sample')
                 <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                 @enderror
             </div>

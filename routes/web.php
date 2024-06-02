@@ -21,6 +21,9 @@ Route::get('/listings/{listing}/edit', [ListingController::class, 'edit'])->midd
 // Update listing
 Route::put('/listings/{listing}', [ListingController::class, 'update'])->middleware('auth');
 
+// Download audio sample
+Route::post('/listings/{listing}/download', [ListingController::class, 'download'])->middleware('auth');
+
 // Delete listing
 Route::delete('/listings/{listing}', [ListingController::class, 'delete'])->middleware('auth');
 

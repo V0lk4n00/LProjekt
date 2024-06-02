@@ -10,6 +10,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ListingController extends Controller
 {
@@ -55,6 +57,10 @@ class ListingController extends Controller
             $form['logo'] = $request->file('logo')->store('images', 'public');
         }
 
+        if ($request->hasFile('sample')) {
+            $form['sample'] = $request->file('sample')->store('audio');
+        }
+
         $form['user_id'] = auth()->id();
 
         Listing::create($form);
@@ -91,9 +97,24 @@ class ListingController extends Controller
             $form['logo'] = $request->file('logo')->store('images', 'public');
         }
 
+        if ($request->hasFile('sample')) {
+            $form['sample'] = $request->file('sample')->store('audio');
+        }
+
         $listing->update($form);
 
         return redirect('/listings/'.$listing->id)->with('message', 'Listing updated!');
+    }
+
+    // Download an audio file associated with the listing
+    public function download(Listing $listing): StreamedResponse|RedirectResponse
+    {
+        // Check if the file exists
+        if (! $listing->sample || ! Storage::disk('local')->exists($listing->sample)) {
+            return redirect()->back();
+        }
+
+        return Storage::disk('local')->download($listing->sample);
     }
 
     // Delete listing

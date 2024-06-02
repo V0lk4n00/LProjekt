@@ -84,7 +84,7 @@
             <p class="ml-2">Copyright &copy; 2024, All Rights reserved</p>
 
             <a href="/listings/create" class="absolute center right-10 bg-black text-white py-2 px-5">
-                Post Job
+                Add new song
             </a>
         </footer>
 
