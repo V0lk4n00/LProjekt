@@ -16,7 +16,7 @@
                 <label>
                     <input
                         type="text"
-                        class="border border-gray-200 rounded p-2 w-full"
+                        class="border border-gray-400 rounded p-2 w-full"
                         name="company"
                         placeholder="Example: Essential Recordings"
                         value="{{old('company')}}"
@@ -35,7 +35,7 @@
                 <label>
                     <input
                         type="text"
-                        class="border border-gray-200 rounded p-2 w-full"
+                        class="border border-gray-400 rounded p-2 w-full"
                         name="title"
                         placeholder="Example: Chicane - Saltwater"
                         value="{{old('title')}}"
@@ -54,7 +54,7 @@
                 <label>
                     <input
                         type="text"
-                        class="border border-gray-200 rounded p-2 w-full"
+                        class="border border-gray-400 rounded p-2 w-full"
                         name="location"
                         placeholder="Example: UK"
                         value="{{old('location')}}"
@@ -73,7 +73,7 @@
                 <label>
                     <input
                         type="text"
-                        class="border border-gray-200 rounded p-2 w-full"
+                        class="border border-gray-400 rounded p-2 w-full"
                         name="tags"
                         placeholder="Example: Trance,1999,UK,Chicane"
                         value="{{old('tags')}}"
@@ -91,9 +91,9 @@
                 </label>
                 <input
                     type="file"
-                    class="border border-gray-200 rounded p-2 w-full"
+                    class="border border-gray-400 rounded p-2 w-full"
                     name="logo"
-                    accept=" .jpg .png .jpeg .svg"
+                    accept=".jpg, .png, .jpeg, .svg"
                 />
 
                 @error('logo')
@@ -107,7 +107,7 @@
                 </label>
                 <label>
                     <textarea
-                        class="border border-gray-200 rounded p-2 w-full"
+                        class="border border-gray-400 rounded p-2 w-full"
                         name="description"
                         rows="10"
                         placeholder="Include tasks, requirements, salary, etc">{{old('description')}}</textarea>
@@ -124,7 +124,7 @@
                 </label>
                 <input
                     type="file"
-                    class="border border-gray-200 rounded p-2 w-full"
+                    class="border border-gray-400 rounded p-2 w-full"
                     name="sample"
                     accept=".flac"
                 />

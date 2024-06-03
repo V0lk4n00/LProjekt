@@ -17,7 +17,7 @@
                 <label>
                     <input
                         type="text"
-                        class="border border-gray-200 rounded p-2 w-full"
+                        class="border border-gray-400 rounded p-2 w-full"
                         name="company"
                         placeholder="Example: Essential Recordings"
                         value="{{$listing->company}}"
@@ -36,7 +36,7 @@
                 <label>
                     <input
                         type="text"
-                        class="border border-gray-200 rounded p-2 w-full"
+                        class="border border-gray-400 rounded p-2 w-full"
                         name="title"
                         placeholder="Example: Chicane - Saltwater"
                         value="{{$listing->title}}"
@@ -55,7 +55,7 @@
                 <label>
                     <input
                         type="text"
-                        class="border border-gray-200 rounded p-2 w-full"
+                        class="border border-gray-400 rounded p-2 w-full"
                         name="location"
                         placeholder="Example: UK"
                         value="{{$listing->location}}"
@@ -74,7 +74,7 @@
                 <label>
                     <input
                         type="text"
-                        class="border border-gray-200 rounded p-2 w-full"
+                        class="border border-gray-400 rounded p-2 w-full"
                         name="tags"
                         placeholder="Example: Trance,1999,UK,Chicane"
                         value="{{$listing->tags}}"
@@ -92,7 +92,7 @@
                 </label>
                 <input
                     type="file"
-                    class="border border-gray-200 rounded p-2 w-full"
+                    class="border border-gray-400 rounded p-2 w-full"
                     name="logo"
                 />
 
@@ -109,7 +109,7 @@
                 </label>
                 <label>
                     <textarea
-                        class="border border-gray-200 rounded p-2 w-full"
+                        class="border border-gray-400 rounded p-2 w-full"
                         name="description"
                         rows="10"
                         placeholder="Include tasks, requirements, salary, etc">{{$listing->description}}</textarea>
@@ -122,11 +122,11 @@
 
             <div class="mb-6">
                 <label for="logo" class="inline-block text-lg mb-2">
-                    Image
+                    Audio Sample
                 </label>
                 <input
                     type="file"
-                    class="border border-gray-200 rounded p-2 w-full"
+                    class="border border-gray-400 rounded p-2 w-full"
                     name="logo"
                     accept=".jpg .png .jpeg .svg"
                 />

@@ -19,8 +19,8 @@ class ListingFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence(),
-            'tags' => 'not on label',
-            'company' => $this->faker->company(),
+            'tags' => 'trance,1999,UK,vinyl',
+            'company' => 'Not on label',
             'location' => $this->faker->country(),
             'description' => $this->faker->paragraph(5),
         ];
