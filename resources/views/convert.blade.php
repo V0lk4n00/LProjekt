@@ -1,6 +1,6 @@
 <x-layout>
     @include('partials._search')
-    <a href="/" class="inline-block text-black ml-4 mb-4">
+    <a href="{{ route('home') }}" class="inline-block text-black ml-4 mb-4">
         <i class="fa-solid fa-arrow-left"></i> Back
     </a>
     <x-card class="p-10 max-w-lg mx-auto mt-24">

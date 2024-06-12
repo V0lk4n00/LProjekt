@@ -7,7 +7,7 @@
             <p class="mb-4">Edit {{$listing->title}}</p>
         </header>
 
-        <form method="POST" action="/listings/{{$listing->id}}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('home') }}/listings/{{$listing->id}}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="mb-6">
@@ -121,17 +121,17 @@
             </div>
 
             <div class="mb-6">
-                <label for="logo" class="inline-block text-lg mb-2">
-                    Audio Sample
+                <label for="sample" class="inline-block text-lg mb-2">
+                    Audio Sample (Max 300MB)
                 </label>
                 <input
                     type="file"
                     class="border border-gray-400 rounded p-2 w-full"
-                    name="logo"
-                    accept=".jpg .png .jpeg .svg"
+                    name="sample"
+                    accept=".flac"
                 />
 
-                @error('logo')
+                @error('sample')
                 <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                 @enderror
             </div>
@@ -141,7 +141,7 @@
                     Confirm changes
                 </button>
 
-                <a href="/listings/{{$listing->id}}" class="text-black ml-4"> Back </a>
+                <a href="{{ route('home') }}/listings/{{$listing->id}}" class="text-black ml-4"> Back </a>
             </div>
         </form>
     </x-card>

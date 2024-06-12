@@ -37,7 +37,7 @@ class UserController extends Controller
         // Login
         auth()->login($user);
 
-        return redirect('/')->with('message', 'User created and logged in!');
+        return redirect()->route('home')->with('message', 'User created and logged in!');
     }
 
     // Show login form
@@ -57,7 +57,7 @@ class UserController extends Controller
         if (auth()->attempt($form)) {
             $request->session()->regenerate();
 
-            return redirect('/')->with('message', 'Login successful!');
+            return redirect()->route('home')->with('message', 'Login successful!');
         }
 
         return back()->withErrors(['email' => 'Invalid credentials'])->onlyInput('email');
@@ -71,6 +71,6 @@ class UserController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/')->with('message', 'You have been logged out!');
+        return redirect()->route('home')->with('message', 'You have been logged out!');
     }
 }

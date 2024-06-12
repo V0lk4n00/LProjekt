@@ -7,7 +7,7 @@
             <p class="mb-4">Log into your account</p>
         </header>
 
-        <form method="POST" action="/users/authenticate">
+        <form method="POST" action="{{ route('authenticate') }}">
             @csrf
             <div class="mb-6">
                 <label for="email" class="inline-block text-lg mb-2">
@@ -57,7 +57,7 @@
             <div class="mt-8">
                 <p>
                     Don't have an account?
-                    <a href="/register" class="text-laravel">
+                    <a href="{{ route('register') }}" class="text-laravel">
                         Register
                     </a>
                 </p>

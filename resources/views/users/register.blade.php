@@ -7,7 +7,7 @@
             <p class="mb-4">Create an account to post gigs</p>
         </header>
 
-        <form method="POST" action="/users">
+        <form method="POST" action="{{ route('new_user') }}">
             @csrf
             <div class="mb-6">
                 <label for="name" class="inline-block text-lg mb-2">
@@ -96,7 +96,7 @@
             <div class="mt-8">
                 <p>
                     Already have an account?
-                    <a href="/login" class="text-laravel">
+                    <a href="{{ route('login') }}" class="text-laravel">
                         Login
                     </a>
                 </p>

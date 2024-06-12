@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [ListingController::class, 'index'])->name('home');
 
 // Create listing
-Route::get('/listings/create', [ListingController::class, 'create'])->middleware('auth');
+Route::get('/listings/create', [ListingController::class, 'create'])->middleware('auth')->name('create');
 
 // Store listing
-Route::post('/listings/store', [ListingController::class, 'store'])->middleware('auth');
+Route::post('/listings/store', [ListingController::class, 'store'])->middleware('auth')->name('store');
 
 // Edit listing
 Route::get('/listings/{listing}/edit', [ListingController::class, 'edit'])->middleware('auth');
@@ -28,10 +28,10 @@ Route::post('/listings/{listing}/download', [ListingController::class, 'download
 Route::delete('/listings/{listing}', [ListingController::class, 'delete'])->middleware('auth');
 
 // Manage listings
-Route::get('/listings/manage', [ListingController::class, 'manage'])->middleware('auth');
+Route::get('/listings/manage', [ListingController::class, 'manage'])->middleware('auth')->name('manage');
 
 // Single listing
-Route::get('/listings/{listing}', [ListingController::class, 'show']);
+Route::get('/listings/{listing}', [ListingController::class, 'show'])->name('show');
 
 // If user were to type in URL "localhost/listings" without any ID or anything else - redirect them back to homepage
 Route::get('/listings', function () {
@@ -39,19 +39,19 @@ Route::get('/listings', function () {
 });
 
 // User registration form
-Route::get('/register', [UserController::class, 'register'])->middleware('guest');
+Route::get('/register', [UserController::class, 'register'])->middleware('guest')->name('register');
 
 // Create user
-Route::post('/users', [UserController::class, 'create']);
+Route::post('/users', [UserController::class, 'create'])->name('new_user');
 
 // User login form
-Route::get('/login', [UserController::class, 'login'])->name('login')->middleware('guest');
+Route::get('/login', [UserController::class, 'login'])->middleware('guest')->name('login');
 
 // Authenticate
-Route::post('/users/authenticate', [UserController::class, 'authenticate']);
+Route::post('/users/authenticate', [UserController::class, 'authenticate'])->name('authenticate');
 
 // Logout
-Route::post('/logout', [UserController::class, 'logout']);
+Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
 // Audio transcoding
 // Show upload form

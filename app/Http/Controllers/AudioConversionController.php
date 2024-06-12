@@ -80,12 +80,13 @@ class AudioConversionController extends Controller
         // Generate a unique filename with MP3 suffix
         $convertedFileName = uniqid('converted_').'.mp3';
 
-        // Convert FLAC to MP3
+        // Convert FLAC to MP3 with custom parameters
         FFMpeg::fromDisk('local')
             ->open('audio/input.flac')
             ->export()
             ->toDisk('local')
-            ->inFormat(new Mp3)
+            ->inFormat((new Mp3)->setAudioCodec('libmp3lame'))
+            ->addFilter(['-max_alloc', '67108864'])
             ->save($convertedFileName);
 
         // Get the path of the converted file

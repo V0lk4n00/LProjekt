@@ -1,6 +1,6 @@
 <x-layout>
     @include('partials._search')
-    <a href="/" class="inline-block text-black ml-4 mb-4">
+    <a href="{{ route('home') }}" class="inline-block text-black ml-4 mb-4">
         <i class="fa-solid fa-arrow-left"></i> Back
     </a>
     <div class="mx-4">
@@ -32,7 +32,7 @@
         </x-card>
 
         <x-card class="mt-4 p-2 flex flex-col items-center space-x-6">
-            <form method="POST" action="/listings/{{$listing->id}}/download">
+            <form method="POST" action="{{ route('home') }}/listings/{{$listing->id}}/download">
                 @csrf
                 <button class="align-center text-red-500">
                     <i class="fa-solid fa-download"></i>

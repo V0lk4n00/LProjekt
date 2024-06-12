@@ -65,7 +65,7 @@ class ListingController extends Controller
 
         Listing::create($form);
 
-        return redirect('/')->with('message', 'Listing created!');
+        return redirect()->route('home')->with('message', 'Listing created!');
     }
 
     // Show edit form
@@ -103,7 +103,8 @@ class ListingController extends Controller
 
         $listing->update($form);
 
-        return redirect('/listings/'.$listing->id)->with('message', 'Listing updated!');
+        //return redirect('/listings/'.$listing->id)->with('message', 'Listing updated!');
+        return redirect()->route('show', ['listing' => $listing->id])->with('message', 'Listing updated!');
     }
 
     // Download an audio file associated with the listing
@@ -130,7 +131,7 @@ class ListingController extends Controller
 
         $listing->delete();
 
-        return redirect('/')->with('message', 'Listing deleted!');
+        return redirect()->route('home')->with('message', 'Listing deleted!');
     }
 
     // Manage listings

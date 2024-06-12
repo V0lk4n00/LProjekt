@@ -19,7 +19,7 @@ class ListingFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence(),
-            'tags' => 'trance,1999,UK,vinyl',
+            'tags' => 'Trance,1999,UK,Vinyl',
             'company' => 'Not on label',
             'location' => $this->faker->country(),
             'description' => $this->faker->paragraph(5),

@@ -7,7 +7,7 @@
             <p class="mb-4">Add new listing to the database</p>
         </header>
 
-        <form method="POST" action="/listings/store" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('store') }}" enctype="multipart/form-data">
             @csrf
             <div class="mb-6">
                 <label for="company" class="inline-block text-lg mb-2">
@@ -120,7 +120,7 @@
 
             <div class="mb-6">
                 <label for="sample" class="inline-block text-lg mb-2">
-                    Audio Sample
+                    Audio Sample (Max 300MB)
                 </label>
                 <input
                     type="file"
@@ -139,7 +139,7 @@
                     Create listing
                 </button>
 
-                <a href="/" class="text-black ml-4"> Back </a>
+                <a href="{{ route('home') }}" class="text-black ml-4"> Back </a>
             </div>
         </form>
     </x-card>
