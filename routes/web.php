@@ -38,6 +38,8 @@ Route::get('/listings', function () {
     return redirect('/');
 });
 
+
+// Users
 // User registration form
 Route::get('/register', [UserController::class, 'register'])->middleware('guest')->name('register');
 
@@ -53,12 +55,16 @@ Route::post('/users/authenticate', [UserController::class, 'authenticate'])->nam
 // Logout
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
+
 // Audio transcoding
 // Show upload form
 Route::get('/convert', [AudioConversionController::class, 'showConversionForm'])->name('convert');
 
 // Upload raw file
-Route::post('/convert', [AudioConversionController::class, 'upload'])->name('upload');
+Route::post('/convert/upload', [AudioConversionController::class, 'upload'])->name('upload');
+
+// Transcode the file
+Route::post('/convert/transcode', [AudioConversionController::class, 'transcode'])->name('transcode');
 
 // Download converted file
-Route::get('/convert/download/{filename}', [AudioConversionController::class, 'download'])->name('download');
+Route::get('/convert/download', [AudioConversionController::class, 'download'])->name('download');

@@ -6,13 +6,10 @@ use FFMpeg\Format\Audio\Mp3;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Storage;
 use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class AudioConversionController extends Controller
 {
@@ -34,67 +31,52 @@ class AudioConversionController extends Controller
         $request->file('audio_file')->storeAs('audio', 'input.flac');
 
         // Trigger conversion
-        $jsonResponse = $this->convert();
+        // $jsonResponse = $this->convert();
 
         // Initialize session, attach file path
-        Session::flash('converted_file_path', $jsonResponse->original['converted_file_path']);
+        // Session::flash('converted_file_path', $jsonResponse->original['converted_file_path']);
 
-        // Redirect and download the file
-        return redirect()->route('download', ['filename' => basename($jsonResponse->original['converted_file_path'])]);
-    }
-
-    // Download function
-    public function download($filename): \Illuminate\Http\Response
-    {
-        $path = storage_path('app/'.$filename);
-
-        // Check if a path (and by extension the file) exists
-        if (! file_exists($path)) {
-            abort(404);
-        }
-
-        // Get contents of a file
-        $fileContent = file_get_contents($path);
-
-        // Prepare the headers
-        $headers =
-            [
-                'Content-Type' => mime_content_type($path),
-                'Content-Disposition' => 'attachment; filename='.$filename.'"',
-            ];
-
-        // Create the response
-        $response = Response::make($fileContent, 200, $headers);
-
-        // Delete the file after converting
-        register_shutdown_function(function () use ($path) {
-            unlink($path);
-        });
-
-        return $response;
+        // Redirect with message
+        return redirect()->route('convert')->with('message', 'File uploaded successfully!');
     }
 
     // Transcoding function
-    private function convert(): JsonResponse
+    public function transcode(): RedirectResponse
     {
+        $path = storage_path('app/audio/input.flac');
+
+        // Check if a path (and by extension the file) exists
+        if (! file_exists($path)) {
+            return redirect()->route('convert')->with('message', 'File not found!');
+        }
+
         // Generate a unique filename with MP3 suffix
-        $convertedFileName = uniqid('converted_').'.mp3';
+        $name = 'output.mp3';
 
         // Convert FLAC to MP3 with custom parameters
         FFMpeg::fromDisk('local')
             ->open('audio/input.flac')
             ->export()
             ->toDisk('local')
-            ->inFormat((new Mp3)->setAudioCodec('libmp3lame'))
-            ->addFilter(['-max_alloc', '67108864'])
-            ->save($convertedFileName);
+            ->inFormat(new Mp3)
+            ->save($name);
 
-        // Get the path of the converted file
-        $convertedFilePath = Storage::disk('local')->path($convertedFileName);
+        return redirect()->route('convert')->with('message', 'File transcoded successfully!');
+    }
 
-        // Return a response with the path and a message
-        return response()->json([
-            'converted_file_path' => $convertedFilePath,
-        ]);
+    // Download function
+    public function download(): BinaryFileResponse|RedirectResponse
+    {
+        $path = storage_path('app/output.mp3');
+
+        // Check if a path (and by extension the file) exists
+        if (file_exists($path)) {
+
+            // Return the file as a download response
+            return response()->download($path)->deleteFileAfterSend();
+        }
+
+        // Handle file not found case
+        return redirect()->back()->with('message', 'File not found!');
     }
 }

@@ -39,7 +39,27 @@
 
             <div>
                 <button class="bg-laravel text-white rounded py-2 px-4 hover:bg-slate-800" type="submit">
-                    Convert to MP3
+                    Upload file
+                </button>
+            </div>
+        </form>
+
+        <form action="{{ route('transcode') }}" method="POST">
+            @csrf
+            <div class="mt-2">
+                <input type="hidden" name="audio_file">
+                <button class="bg-laravel text-white rounded py-2 px-4 hover:bg-slate-800" type="submit">
+                    Transcode file
+                </button>
+            </div>
+        </form>
+
+        <form action="{{ route('download') }}" method="GET">
+            @csrf
+            <div class="mt-2">
+                <input type="hidden" name="audio_file">
+                <button class="bg-laravel text-white rounded py-2 px-4 hover:bg-slate-800" type="submit">
+                    Download file
                 </button>
             </div>
         </form>
