@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <x-layout>
     @include('partials._search')
     <a href="{{ route('home') }}" class="inline-block text-black ml-4 mb-4">
@@ -55,7 +56,6 @@
         </form>
 
         <form action="{{ route('download') }}" method="GET">
-            @csrf
             <div class="mt-2">
                 <input type="hidden" name="audio_file">
                 <button class="bg-laravel text-white rounded py-2 px-4 hover:bg-slate-800" type="submit">

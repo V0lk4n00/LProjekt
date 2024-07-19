@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,5 +25,7 @@ class AppServiceProvider extends ServiceProvider
         Model::unguard();
 
         RedirectIfAuthenticated::redirectUsing(fn ($request) => route('home'));
+
+        resolve(UrlGenerator::class)->forceScheme('https');
     }
 }

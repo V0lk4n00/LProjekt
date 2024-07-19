@@ -30,12 +30,6 @@ class AudioConversionController extends Controller
         // Move the file to storage
         $request->file('audio_file')->storeAs('audio', 'input.flac');
 
-        // Trigger conversion
-        // $jsonResponse = $this->convert();
-
-        // Initialize session, attach file path
-        // Session::flash('converted_file_path', $jsonResponse->original['converted_file_path']);
-
         // Redirect with message
         return redirect()->route('convert')->with('message', 'File uploaded successfully!');
     }
