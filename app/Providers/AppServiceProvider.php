@@ -26,6 +26,6 @@ class AppServiceProvider extends ServiceProvider
 
         RedirectIfAuthenticated::redirectUsing(fn ($request) => route('home'));
 
-        resolve(UrlGenerator::class)->forceScheme('https');
+        //resolve(UrlGenerator::class)->forceScheme('https');
     }
 }

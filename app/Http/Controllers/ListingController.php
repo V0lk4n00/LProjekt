@@ -115,6 +115,14 @@ class ListingController extends Controller
             return redirect()->back();
         }
 
+        // Make sure if logged user is the owner of the listing
+        $user = auth()->user();
+
+        /** @var User $user */
+        if (! $user || $listing->user_id != $user->id) {
+            abort(403, 'Unauthorized action');
+        }
+
         return Storage::disk('local')->download($listing->sample);
     }
 
